@@ -1,2 +1,0 @@
-# RumbleOfTheForestCH
-Web Page
