@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "engines": "^0.4.0",
+    "package.json": "^2.0.1"
+  },
+
+  "engines": {
+    "node": "17.8.0"
+  }
+}
