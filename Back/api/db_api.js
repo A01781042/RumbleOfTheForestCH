@@ -182,6 +182,30 @@ app.get('/api/top_high_scores', (request, response)=>{
 
 
 
+app.get('/api/notes_stats', (request, response)=>{
+    let connection = connectToDB();
+
+    try{
+
+        connection.connect();
+
+        connection.query('select * from notes_stats', (error, results, fields)=>{
+            if(error) console.log(error);
+            console.log(JSON.stringify(results));
+            response.json(results);
+        });
+
+        connection.end();
+    }
+    catch(error)
+    {
+        response.json(error);
+        console.log(error);
+    }
+});
+
+
+
 app.listen(port, ()=>
 {
     console.log(`App listening at http://localhost:${port}`);
