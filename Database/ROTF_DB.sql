@@ -109,6 +109,23 @@ LOCK TABLES `notes` WRITE;
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `notes_stats`
+--
+
+DROP TABLE IF EXISTS `notes_stats`;
+/*!50001 DROP VIEW IF EXISTS `notes_stats`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `notes_stats` AS SELECT 
+ 1 AS `name`,
+ 1 AS `total_notes`,
+ 1 AS `perfect_percentage`,
+ 1 AS `good_percentage`,
+ 1 AS `hit_percentage`,
+ 1 AS `missed_percentage`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `score`
 --
 
@@ -215,8 +232,12 @@ DROP TABLE IF EXISTS `score_notes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `score_notes` (
   `id_score_notes` int unsigned NOT NULL AUTO_INCREMENT,
-  `num_of_notes` int NOT NULL,
+  `num_notes_perfect` int NOT NULL,
+  `num_notes_good` int NOT NULL,
+  `num_notes_hit` int NOT NULL,
+  `num_notes_missed` int NOT NULL,
   `id_notes` int unsigned DEFAULT NULL,
+  `num_of_notes` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_score_notes`),
   KEY `id_score_notes_idx` (`id_score_notes`),
   KEY `id_notes_idx` (`id_notes`),
@@ -440,6 +461,24 @@ DELIMITER ;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `notes_stats`
+--
+
+/*!50001 DROP VIEW IF EXISTS `notes_stats`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `notes_stats` AS select `ui`.`name` AS `name`,(((coalesce(`sn`.`num_notes_perfect`) + coalesce(`sn`.`num_notes_good`)) + coalesce(`sn`.`num_notes_hit`)) + coalesce(`sn`.`num_notes_missed`)) AS `total_notes`,((coalesce(`sn`.`num_notes_perfect`) * 100) / (((coalesce(`sn`.`num_notes_perfect`) + coalesce(`sn`.`num_notes_good`)) + coalesce(`sn`.`num_notes_hit`)) + coalesce(`sn`.`num_notes_missed`))) AS `perfect_percentage`,((coalesce(`sn`.`num_notes_good`) * 100) / (((coalesce(`sn`.`num_notes_perfect`) + coalesce(`sn`.`num_notes_good`)) + coalesce(`sn`.`num_notes_hit`)) + coalesce(`sn`.`num_notes_missed`))) AS `good_percentage`,((coalesce(`sn`.`num_notes_hit`) * 100) / (((coalesce(`sn`.`num_notes_perfect`) + coalesce(`sn`.`num_notes_good`)) + coalesce(`sn`.`num_notes_hit`)) + coalesce(`sn`.`num_notes_missed`))) AS `hit_percentage`,((coalesce(`sn`.`num_notes_missed`) * 100) / (((coalesce(`sn`.`num_notes_perfect`) + coalesce(`sn`.`num_notes_good`)) + coalesce(`sn`.`num_notes_hit`)) + coalesce(`sn`.`num_notes_missed`))) AS `missed_percentage` from (`user_info` `ui` join `score_notes` `sn` on((`ui`.`id_user_info` = `sn`.`id_score_notes`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `top_ages`
 --
 
@@ -484,4 +523,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-05  7:28:18
+-- Dump completed on 2022-05-05  7:49:46
