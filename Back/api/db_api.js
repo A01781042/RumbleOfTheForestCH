@@ -28,7 +28,7 @@ function connectToDB()
 }
 
 app.get('/', (request,response)=>{
-    fs.readFile('./html/index.html', 'utf8', (err, html)=>{
+    fs.readFile('./html/score.html', 'utf8', (err, html)=>{
         if(err) response.status(500).send('There was an error: ' + err);
         console.log('Loading page...');
         response.send(html);
