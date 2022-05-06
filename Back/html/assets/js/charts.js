@@ -9,7 +9,11 @@ async function setupChar()
     if(response.ok)
     {
         let results = await response.json()
-    console.log(results)
+    console.log(results ["perfect_percentage"])
+
+    const values = Object.values(results)
+    console.log(values [0] ["name"])
+
     const data = {
         labels: [
           'Perfect',
@@ -19,18 +23,21 @@ async function setupChar()
         ],
         datasets: [{
           label: 'Acurrancy Percentage',
-          data: [results.perfect_percentage, results.good_percentage, results.hit_percentage, results.missed_percentage],
+          data: [values [0] ["perfect_percentage"], values [0] ["good_percentage"], values [0] ["hit_percentage"], values [0] ["missed_percentage"]],
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
+            'rgb(255, 205, 86)',
+            'rgb(254, 145, 92'
           ],
           hoverOffset: 4
         }]
       }
     
+    const ctx = document.getElementById('pieChart').getContext('2d')  
+    
     const myChart =
-        new Chart("pieChart", {
+          new Chart(ctx, {
         type: "pie",
         data: data,
         options: {}
