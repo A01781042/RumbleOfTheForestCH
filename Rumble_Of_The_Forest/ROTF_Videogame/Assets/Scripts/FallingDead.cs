@@ -11,19 +11,7 @@ Chronicle Games
 */
 public class FallingDead : MonoBehaviour
 {
-    Player player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] Player player;
 
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -31,13 +19,8 @@ public class FallingDead : MonoBehaviour
         GameObject collisionGameObject = collision.gameObject;
 
         if(collisionGameObject.tag == "Player"){
-            Restart();
+            player.Die(0.5f);
         }
     }
 
-    void Restart()
-    {
-        Score.scoreValue = 0;
-        SceneManager.LoadScene(1);
-    }
 }

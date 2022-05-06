@@ -14,8 +14,11 @@ Chronicle Games
 public class Player : MonoBehaviour
 {
 
-    /* int inGameTimer; */
+    public float inGameTimer;
     public APITest DB;
+    public TriggerSpace triggerSpace_scr;
+    public Instantiator instantiator_scr;
+    public float accuracy;
     //Health Bar Attributes
     private int minHealth = 0;
     public int maxHealth = 20;
@@ -26,12 +29,19 @@ public class Player : MonoBehaviour
     public int damage_taken;
     public int damage_inflicted;
 
+    public int deaths;
+
     public HealthBar healthBar;
     public powerBar powerBar;
     private Animator animator;
     [SerializeField] Text gameOver;
 
     private Rigidbody2D rb2d;
+
+
+     Scene currentScene;
+
+     string sceneName;
 
     void Start()
     {
@@ -45,7 +55,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        /* inGameTimer += inGameTimer.deltaTime; */
         // if (Input.GetKeyDown(KeyCode.Space) && currentHealth != maxHealth)
         // {
         //     Heal(1);
@@ -53,15 +62,14 @@ public class Player : MonoBehaviour
 
         if (currentHealth <= minHealth)
         {
-            StartCoroutine(deadScreen());
-            gameOver.text = "GAME OVER!";
-            animator.SetBool("isDead", true);
+            Die(8.0f);
             
         }
         if (currentPower <= minPower)
         {
             currentPower = minPower;
         }
+        inGameTimer += Time.deltaTime;
     }
 
 
@@ -81,7 +89,7 @@ public class Player : MonoBehaviour
     }
 
     public void UsePower(){
-        currentPower -= 3;
+        currentPower -= maxPower;
         powerBar.SetPowerPoints(currentPower);
     }
 
@@ -96,9 +104,16 @@ public class Player : MonoBehaviour
          damage_inflicted += damage;
      }
 
+    public void Die(float seconds){
+            StartCoroutine(deadScreen(seconds));
+            accuracy = (triggerSpace_scr.totalHitBars / instantiator_scr.numOfLines) * 100;
+            gameOver.text = "GAME OVER!";
+            animator.SetBool("isDead", true);
+    }
+
     void Restart()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
 
@@ -111,11 +126,19 @@ public class Player : MonoBehaviour
             TakeDamage(1);
         }
     }
-    IEnumerator deadScreen(){
-        yield return new WaitForSeconds(8f);
+
+
+    IEnumerator deadScreen(float seconds){
+        yield return new WaitForSeconds(seconds);
+
+        deaths += 1;
 
         DB.addScore();
-        Score.scoreValue = 0;
+        DB.addStatistics();
+        DB.addUsers();
+        DB.addScoreEnemies();
+        DB.addScoreNotes();
+
         Restart();
         
     }

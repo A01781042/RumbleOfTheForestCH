@@ -13,7 +13,7 @@ public class TriggerSpace : MonoBehaviour
 {
     Player player;
     Lines line;
-
+    public float totalHitBars;
     public bool Damage;
     public bool canHeal = true;
     bool canPress = false;          //Determines when the player will be able to gain points/health from a "rhythm bar" 
@@ -32,9 +32,17 @@ public class TriggerSpace : MonoBehaviour
     [HideInInspector]
     public bool canShoot;
 
+    public AudioSource play;
+
+    public AudioClip heartBeat;
+
+    public AudioClip missedHeartBeat;
+    public bool musicIsPlaying = false;
+
     void Start(){
         animator = GetComponent<Animator>();
         canShoot = true;
+
         
     }
     
@@ -48,13 +56,14 @@ public class TriggerSpace : MonoBehaviour
      void Update()
      {
          transform.SetAsLastSibling();
-
         
         if (Input.GetKeyDown(KeyCode.Space) && canPress && canShoot)
         {
             addPoints(1);
+            totalHitBars += 1f;
+            AudioSource.PlayClipAtPoint(heartBeat, player.transform.position);
 
-            if(Input.GetKey(KeyCode.E) && (player.currentPower >= 0 && player.currentPower == 3)){
+            if(Input.GetKey(KeyCode.E) && (player.currentPower >= 0 && player.currentPower == player.maxPower)){
                 
                     GameObject newBullet = Instantiate(Bullet, shootPos.position, Quaternion.identity);
                     
@@ -77,7 +86,7 @@ public class TriggerSpace : MonoBehaviour
 
             //Does not let the player cheat, he/she will only be able to regain power if the "E" key is not constantlly pressed.
             if((player.currentPower != player.maxPower) && canShoot && !Input.GetKey(KeyCode.E) ){
-
+                
                 player.RegainPower();
             }
             
@@ -99,6 +108,7 @@ public class TriggerSpace : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !canPress)
         {
             substractPoints(1);
+            AudioSource.PlayClipAtPoint(missedHeartBeat, player.transform.position, 0.2f);
             player.TakeDamage(0);
 
             Debug.Log("Missed!");
@@ -116,10 +126,16 @@ public class TriggerSpace : MonoBehaviour
     //Activates when the "Rhythm bars" enter the "RhythmHearSpace" object collision box.
     void OnTriggerEnter2D(Collider2D other)
     {
-
+        
         canPress = true;
         canShoot = true;
+        
 
+        if(!musicIsPlaying)
+        {
+        play.Play();
+        musicIsPlaying = true;
+        }
     }
     //Activates when the "Rhythm bars" exit the "RhythmHearSpace" object collision box.
     void OnTriggerExit2D(Collider2D other)
