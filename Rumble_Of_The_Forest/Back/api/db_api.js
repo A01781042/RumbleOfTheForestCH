@@ -1,6 +1,7 @@
 "use strict"
 
 import express from 'express'
+import cors from 'cors'
 import mysql from 'mysql'
 import fs from 'fs'
 
@@ -15,6 +16,9 @@ app.use('/css', express.static('./css'))
 app.use('/assets', express.static('./html/assets'))
 
 app.use('/html', express.static('./html'))
+
+app.use(cors());
+  
 
 function connectToDB()
 {

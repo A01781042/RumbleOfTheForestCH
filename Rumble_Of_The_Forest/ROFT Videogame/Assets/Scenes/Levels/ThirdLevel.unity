@@ -7589,7 +7589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88987d2577d07574f9be1f663e77fec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: localhost:5000
+  url: http://localhost:5000
   getScoreEP: /api/score
   getStatisticsEP: /api/statistics
   getUsersEP: /api/user_info
