@@ -465,7 +465,7 @@ app.put('/api/score_notes', (request, response)=>{
         let connection = connectToDB();
         connection.connect();
 
-        const query = connection.query('update score_notes set notes = ? where id_score_notes= ?', [request.body['notes'], request.body['score_notesID']] ,(error, results, fields)=>{
+        const query = connection.query('update score_notes set num_notes_perfect = ?, num_notes_good = ?, num_notes_hit = ?, num_notes_missed = ? where id_score_notes= ?', [request.body['num_notes_perfect'], request.body['num_notes_good'], request.body['num_notes_hit'], request.body['num_notes_missed'], request.body['score_notesID']] ,(error, results, fields)=>{
             if(error) 
                 console.log(error);
             else

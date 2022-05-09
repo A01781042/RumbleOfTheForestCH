@@ -38,7 +38,10 @@ public class DBUsers{
 }
 [System.Serializable]
 public class DBScoreNotes{
-    public int num_of_notes;
+    public int num_notes_perfect;
+       public int  num_notes_good;
+       public int num_notes_hit;
+       public int num_notes_missed;
 
 }
 [System.Serializable]
@@ -90,7 +93,7 @@ public class TopHighScoreList{
 
 public class APITest : MonoBehaviour
 {
-     Player player;
+    [SerializeField] Player player;
     [SerializeField] string url;
     [SerializeField] string getScoreEP;
     [SerializeField] string getStatisticsEP;
@@ -118,6 +121,7 @@ public class APITest : MonoBehaviour
     }
 
     public void addScore(){
+        Debug.Log("Score added");
         StartCoroutine("AddScore");
     }
 
@@ -132,7 +136,6 @@ public class APITest : MonoBehaviour
             // https://answers.unity.com/questions/1503047/json-must-represent-an-object-type.html
             string jsonString = "{\"score\":" + www.downloadHandler.text + "}";
             allScores = JsonUtility.FromJson<ScoreList>(jsonString);
-            //DisplayScores();
         } else {
             Debug.Log("Error: " + www.error);
         }
@@ -149,11 +152,12 @@ public class APITest : MonoBehaviour
 
         // Create the object to be sent as json
         DBScore testScore = new DBScore();
+
         testScore.total_score = Score.scoreValue;
         testScore.lost_life = player.currentHealth;
         testScore.damage_inflicted = player.damage_inflicted;
         testScore.damage_taken = player.damage_taken;
-        Debug.Log("Score added");
+        
 
         //Debug.Log("USER: " + testUser);
         string jsonData = JsonUtility.ToJson(testScore);
@@ -393,6 +397,10 @@ public class APITest : MonoBehaviour
          // Create the object to be sent as json
          DBScoreNotes testScoreNotes = new DBScoreNotes();
 
+        testScoreNotes.num_notes_perfect = 10;
+        testScoreNotes.num_notes_good = 40;
+        testScoreNotes.num_notes_hit = 20;
+        testScoreNotes.num_notes_missed = 25;
 
          //Debug.Log("USER: " + testUser);
          string jsonData = JsonUtility.ToJson(testScoreNotes);

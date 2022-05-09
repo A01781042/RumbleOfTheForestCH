@@ -1597,13 +1597,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88987d2577d07574f9be1f663e77fec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2058579199}
   url: http://localhost:5000
   getScoreEP: /api/score
   getStatisticsEP: /api/statistics
   getUsersEP: /api/user_info
-  getScoreNotesEP: 
-  getScoreEnemiesEP: 
-  getTopHighScoresEP: 
+  getScoreNotesEP: /api/score_notes
+  getScoreEnemiesEP: /api/score_enemies
+  getTopHighScoresEP: /api/top_high_scores
   allScores:
     score: []
   allStatistics:

@@ -7589,13 +7589,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88987d2577d07574f9be1f663e77fec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1289580252}
   url: http://localhost:5000
   getScoreEP: /api/score
   getStatisticsEP: /api/statistics
   getUsersEP: /api/user_info
-  getScoreNotesEP: 
-  getScoreEnemiesEP: 
-  getTopHighScoresEP: 
+  getScoreNotesEP: /api/score_notes
+  getScoreEnemiesEP: /api/score_enemies
+  getTopHighScoresEP: /api/top_high_scores
   allScores:
     score: []
   allStatistics:
@@ -23994,7 +23995,7 @@ MonoBehaviour:
   instantiator_scr: {fileID: 1684259111}
   accuracy: 0
   maxHealth: 20
-  currentHealth: 0
+  currentHealth: 20
   maxPower: 3
   currentPower: 0
   damage_taken: 0

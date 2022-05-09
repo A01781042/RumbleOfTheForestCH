@@ -55,10 +55,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Space) && currentHealth != maxHealth)
-        // {
-        //     Heal(1);
-        // }
+        if (Input.GetKeyDown(KeyCode.Space) && currentHealth != maxHealth)
+         {
+             Heal(1);
+        }
 
         if (currentHealth <= minHealth)
         {
@@ -138,6 +138,7 @@ public class Player : MonoBehaviour
         DB.addUsers();
         DB.addScoreEnemies();
         DB.addScoreNotes();
+        
 
         Restart();
         
